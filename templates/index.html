@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EmployeeHub</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <span class="logo-icon">☁</span>
+            EmployeeHub
+        </div>
+
+        <nav>
+
+            <a href="#" class="nav-link active">
+                <span>▣</span>
+                Dashboard
+            </a>
+
+            <a href="#employees" class="nav-link">
+                <span>👥</span>
+                Employees
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            Cloud-Native Application
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <header class="header">
+
+            <div>
+                <h1>Employee Management</h1>
+                <p>Manage your organization employees</p>
+            </div>
+
+            <button
+                class="add-button"
+                onclick="openAddModal()"
+            >
+                <strong>+</strong>
+                Add Employee
+            </button>
+
+        </header>
+
+
+        <!-- STATISTICS -->
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    👥
+                </div>
+
+                <div>
+                    <p>Total Employees</p>
+                    <h2 id="totalEmployees">0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    🏢
+                </div>
+
+                <div>
+                    <p>Departments</p>
+                    <h2 id="totalDepartments">0</h2>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    ₹
+                </div>
+
+                <div>
+                    <p>Average Salary</p>
+                    <h2 id="averageSalary">₹0</h2>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- EMPLOYEES -->
+        <section
+            class="employees-card"
+            id="employees"
+        >
+
+            <div class="employees-header">
+
+                <div>
+                    <h2>Employees</h2>
+                    <p>View and manage employees</p>
+                </div>
+
+                <div class="search">
+
+                    <span>⌕</span>
+
+                    <input
+                        id="searchInput"
+                        type="text"
+                        placeholder="Search employees..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- TABLE -->
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>EMPLOYEE</th>
+                            <th>EMAIL</th>
+                            <th>DEPARTMENT</th>
+                            <th>SALARY</th>
+                            <th>ACTIONS</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="employeeTable">
+                        <!-- JavaScript inserts employees here -->
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================
+     ADD EMPLOYEE MODAL
+========================= -->
+
+<div
+    id="addModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-title">
+
+            <div>
+                <h2>Add Employee</h2>
+                <p>Add a new employee</p>
+            </div>
+
+            <button
+                class="close"
+                onclick="closeAddModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="addEmployeeForm"
+            onsubmit="addEmployee(event)"
+        >
+
+            <label>
+                Employee Name
+            </label>
+
+            <input
+                id="employeeName"
+                type="text"
+                placeholder="Enter employee name"
+                required
+            >
+
+
+            <label>
+                Email
+            </label>
+
+            <input
+                id="employeeEmail"
+                type="email"
+                placeholder="Enter email"
+                required
+            >
+
+
+            <label>
+                Department
+            </label>
+
+            <input
+                id="employeeDepartment"
+                type="text"
+                placeholder="Enter department"
+                required
+            >
+
+
+            <label>
+                Salary
+            </label>
+
+            <input
+                id="employeeSalary"
+                type="number"
+                min="0"
+                placeholder="Enter salary"
+                required
+            >
+
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    class="cancel"
+                    onclick="closeAddModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save"
+                >
+                    Add Employee
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     EDIT EMPLOYEE MODAL
+========================= -->
+
+<div
+    id="editModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-title">
+
+            <div>
+                <h2>Edit Employee</h2>
+                <p>Update employee information</p>
+            </div>
+
+            <button
+                class="close"
+                onclick="closeEditModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form
+            id="editEmployeeForm"
+            onsubmit="updateEmployee(event)"
+        >
+
+            <input
+                id="editEmployeeId"
+                type="hidden"
+            >
+
+
+            <label>
+                Employee Name
+            </label>
+
+            <input
+                id="editEmployeeName"
+                type="text"
+                required
+            >
+
+
+            <label>
+                Email
+            </label>
+
+            <input
+                id="editEmployeeEmail"
+                type="email"
+                required
+            >
+
+
+            <label>
+                Department
+            </label>
+
+            <input
+                id="editEmployeeDepartment"
+                type="text"
+                required
+            >
+
+
+            <label>
+                Salary
+            </label>
+
+            <input
+                id="editEmployeeSalary"
+                type="number"
+                min="0"
+                required
+            >
+
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    class="cancel"
+                    onclick="closeEditModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="save"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- NOTIFICATION -->
+
+<div
+    id="notification"
+    class="notification"
+>
+    <span id="notificationMessage"></span>
+</div>
+
+
+
+<script
+    src="{{ url_for('static', filename='app.js') }}"
+></script>
+
+</body>
+</html>
