@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 def get_db_connection():
     connection = pymysql.connect(
-        host="localhost",
+        host="host.docker.internal",
         user="employee_app",
         password="EmployeeApp@123",
         database="employee_db",
@@ -49,11 +49,8 @@ def get_employees():
 
     try:
         with connection.cursor() as cursor:
-
             sql = "SELECT * FROM employees"
-
             cursor.execute(sql)
-
             employees = cursor.fetchall()
 
         return jsonify(employees)
@@ -76,9 +73,7 @@ def get_employee(employee_id):
         with connection.cursor() as cursor:
 
             sql = "SELECT * FROM employees WHERE id = %s"
-
             cursor.execute(sql, (employee_id,))
-
             employee = cursor.fetchone()
 
         if employee is None:
@@ -102,7 +97,6 @@ def create_employee():
 
     data = request.get_json()
 
-    # Check if request contains JSON
     if not data:
         return jsonify({
             "error": "Request body is required"
@@ -113,7 +107,6 @@ def create_employee():
     department = data.get("department")
     salary = data.get("salary")
 
-    # Validate required fields
     if not name:
         return jsonify({
             "error": "Name is required"
@@ -190,9 +183,9 @@ def update_employee(employee_id):
     connection = get_db_connection()
 
     try:
+
         with connection.cursor() as cursor:
 
-            # Check if employee exists
             cursor.execute(
                 "SELECT * FROM employees WHERE id = %s",
                 (employee_id,)
@@ -205,7 +198,6 @@ def update_employee(employee_id):
                     "message": "Employee not found"
                 }), 404
 
-            # Update employee
             sql = """
                 UPDATE employees
                 SET
@@ -248,9 +240,9 @@ def delete_employee(employee_id):
     connection = get_db_connection()
 
     try:
+
         with connection.cursor() as cursor:
 
-            # Check if employee exists
             cursor.execute(
                 "SELECT * FROM employees WHERE id = %s",
                 (employee_id,)
@@ -263,7 +255,6 @@ def delete_employee(employee_id):
                     "message": "Employee not found"
                 }), 404
 
-            # Delete employee
             sql = "DELETE FROM employees WHERE id = %s"
 
             cursor.execute(
