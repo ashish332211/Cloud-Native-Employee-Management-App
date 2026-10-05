@@ -1,84 +1,103 @@
 # Cloud-Native Employee Management Application
 
-A cloud-native 3-tier Employee Management application built using Python Flask, MySQL, Docker, Kubernetes, AWS, and GitHub.
+A cloud-native Employee Management application built with Flask, MySQL, Docker, Kubernetes and AWS.
 
-## Project Overview
+The application provides employee CRUD operations and is deployed on Amazon EKS with Amazon RDS MySQL.
 
-This project demonstrates how a traditional web application can be transformed into a containerized and cloud-native application.
+## Architecture
 
-## Current Architecture
+GitHub → Docker → Amazon ECR → Amazon EKS → Amazon RDS
 
-Browser
-   |
-   v
-HTML / CSS / JavaScript
-   |
-   v
-Flask REST API
-   |
-   v
-MySQL Database
+## For snapshots --> Visit Docs 
 
-## Technologies
+## Tech Stack
 
-- Python
-- Flask
+- Python / Flask
 - MySQL
-- HTML
-- CSS
-- JavaScript
-- Git
-- GitHub
-
-## Features
-
-- Employee dashboard
-- Add employee
-- View employees
-- Edit employee
-- Delete employee
-- Search employees
-- Department statistics
-- Average salary calculation
-- REST APIs
-- MySQL database integration
-
-## REST APIs
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | /employees | Get all employees |
-| GET | /employees/<id> | Get employee by ID |
-| POST | /employees | Create employee |
-| PUT | /employees/<id> | Update employee |
-| DELETE | /employees/<id> | Delete employee |
-
-## Future Architecture
-
-The application will later be extended with:
-
+- HTML / CSS / JavaScript
 - Docker
-- Docker Compose
-- Amazon ECR
 - Kubernetes
 - Helm
+- AWS
+- Git / GitHub
+
+## AWS Services
+
+- Amazon VPC
 - Amazon EKS
-- Amazon RDS
-- Application Load Balancer
+- Amazon ECR
+- Amazon RDS (MySQL)
+- Elastic Load Balancing
+- Amazon CloudWatch
 - IAM
-- VPC
-- CloudWatch
+- NAT Gateway
+
+## Application Features
+
+- Add employee
+- View employees
+- Update employee
+- Delete employee
+- Search employees
+- Department and salary details
+
+## AWS Deployment
+
+- EKS worker nodes are deployed in private subnets.
+- RDS MySQL is deployed in private subnets.
+- Elastic Load Balancer provides external access to the application.
+- NAT Gateway provides outbound internet access for private resources.
+- Security Groups control traffic between the application and database.
+- CloudWatch is used for EKS cluster and workload monitoring.
+
+## Kubernetes
+
+The application is deployed using Kubernetes and Helm.
+
+Resources used:
+
+- Deployment
+- Service
+- ConfigMap
+- Secret
+- HPA
+- Helm Chart
+
+## Database
+
+**Database:** `employee_db`
+
+**Table:** `employees`
+
+The Flask application connects to Amazon RDS MySQL running in the private subnet.
+
+## Project Structure
+
+```text
+cloud-native-employee-app/
+├── employee-app/
+├── kubernetes/
+├── static/
+├── templates/
+├── app.py
+├── Dockerfile
+├── requirements.txt
+└── README.md
+
+## Key Points
+
+- Containerized Flask application using Docker
+- Docker image stored in Amazon ECR
+- Application deployed on Amazon EKS
+- MySQL database hosted on Amazon RDS
+- Custom VPC with public and private subnets
+- Secure communication using AWS Security Groups
+- EKS monitoring using Amazon CloudWatch
+- Kubernetes deployment managed using Helm
+
+## Future Improvements
 - GitHub Actions CI/CD
-
-## Project Phases
-
-- [x] Phase 1 — Local Flask + MySQL Application
-- [ ] Phase 2 — Git & GitHub
-- [ ] Phase 3 — Docker & Docker Compose
-- [ ] Phase 4 — AWS Infrastructure
-- [ ] Phase 5 — Kubernetes & Helm
-- [ ] Phase 6 — Amazon EKS
-- [ ] Phase 7 — Amazon RDS
-- [ ] Phase 8 — GitHub Actions CI/CD
-- [ ] Phase 9 — Monitoring & Reliability
-- [ ] Phase 10 — Documentation & Interview Preparation
+- HTTPS with AWS Certificate Manager
+- Custom domain using Route 53
+- AWS Secrets Manager
+- Infrastructure as Code using Terraform

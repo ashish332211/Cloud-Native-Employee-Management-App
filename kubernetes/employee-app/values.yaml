@@ -1,0 +1,20 @@
+replicaCount: 1
+
+image:
+  repository: ashishbiswal2001/employee-app
+  pullPolicy: Always
+  tag: "latest"
+
+service:
+  type: NodePort
+  port: 5000
+  targetPort: 5000
+  nodePort: 30081
+
+resources: {}
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 70

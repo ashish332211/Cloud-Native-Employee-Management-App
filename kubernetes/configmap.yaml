@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+
+metadata:
+  name: employee-app-configmap
+
+data:
+  APP_NAME: "Employee Management Application"
+  APP_ENV: "Production"
+  

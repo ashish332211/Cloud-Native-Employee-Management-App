@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: employee-app-service 
+
+spec: 
+  type: LoadBalancer
+  selector:
+    app: emp-app
+
+  ports:
+  - port: 5000
+    targetPort: 5000
+    nodePort: 30080

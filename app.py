@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 import pymysql
+import os
 
 app = Flask(__name__)
 
@@ -10,10 +11,11 @@ app = Flask(__name__)
 
 def get_db_connection():
     connection = pymysql.connect(
-        host="host.docker.internal",
-        user="employee_app",
-        password="EmployeeApp@123",
-        database="employee_db",
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "admin"),
+        password=os.getenv("DB_PASSWORD", "EmpApp@123"),
+        database=os.getenv("DB_NAME", "employee_db"),
+        port=int(os.getenv("DB_PORT", "3306")),
         cursorclass=pymysql.cursors.DictCursor
     )
     return connection
